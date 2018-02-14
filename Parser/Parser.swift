@@ -117,7 +117,7 @@ extension Parser where Parsed == Character {
     return Parser { stream in
       let (character, remaining) = try Parser.character.parsing(stream)
       guard predicate(character) else {
-        throw Error.failedPredicate
+        throw Error.failedPredicate(position: stream.position)
       }
       return (character, remaining)
     }
@@ -132,7 +132,7 @@ extension Parser where Parsed == Character {
 
 enum ParserError: Error {
   case endOfString
-  case failedPredicate
+  case failedPredicate(position: Int)
 }
 
 extension Parser {
