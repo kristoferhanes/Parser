@@ -10,6 +10,8 @@
 		5E2B3F35202FAE6C0027902D /* Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E2B3F2B202FAE6C0027902D /* Parser.framework */; };
 		5E2B3F3A202FAE6C0027902D /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2B3F39202FAE6C0027902D /* ParserTests.swift */; };
 		5E2B3F3C202FAE6C0027902D /* Parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2B3F2E202FAE6C0027902D /* Parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E2B3F46202FAEA40027902D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2B3F45202FAEA40027902D /* Parser.swift */; };
+		5EE1C5632033E88300C2B621 /* libPreludeOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EE1C5622033E81000C2B621 /* libPreludeOSX.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,6 +22,27 @@
 			remoteGlobalIDString = 5E2B3F2A202FAE6C0027902D;
 			remoteInfo = Parser;
 		};
+		5EE1C55D2033E81000C2B621 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5EE4E8021EEA305F003CB964;
+			remoteInfo = Prelude;
+		};
+		5EE1C55F2033E81000C2B621 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5EE4E80B1EEA3060003CB964;
+			remoteInfo = PreludeTests;
+		};
+		5EE1C5612033E81000C2B621 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5EE1C5402033E62E00C2B621;
+			remoteInfo = PreludeOSX;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +52,8 @@
 		5E2B3F34202FAE6C0027902D /* ParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E2B3F39202FAE6C0027902D /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		5E2B3F3B202FAE6C0027902D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E2B3F45202FAEA40027902D /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Prelude.xcodeproj; path = ../../../GitHub/Prelude/Prelude.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EE1C5632033E88300C2B621 /* libPreludeOSX.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +82,7 @@
 				5E2B3F2D202FAE6C0027902D /* Parser */,
 				5E2B3F38202FAE6C0027902D /* ParserTests */,
 				5E2B3F2C202FAE6C0027902D /* Products */,
+				5EE1C50E2033DF3700C2B621 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +100,7 @@
 			children = (
 				5E2B3F2E202FAE6C0027902D /* Parser.h */,
 				5E2B3F2F202FAE6C0027902D /* Info.plist */,
+				5E2B3F45202FAEA40027902D /* Parser.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -84,6 +112,24 @@
 				5E2B3F3B202FAE6C0027902D /* Info.plist */,
 			);
 			path = ParserTests;
+			sourceTree = "<group>";
+		};
+		5EE1C50E2033DF3700C2B621 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5EE1C5582033E81000C2B621 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5EE1C55E2033E81000C2B621 /* Prelude.framework */,
+				5EE1C5602033E81000C2B621 /* PreludeTests.xctest */,
+				5EE1C5622033E81000C2B621 /* libPreludeOSX.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +194,7 @@
 				TargetAttributes = {
 					5E2B3F2A202FAE6C0027902D = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					5E2B3F33202FAE6C0027902D = {
@@ -166,6 +213,12 @@
 			mainGroup = 5E2B3F21202FAE6C0027902D;
 			productRefGroup = 5E2B3F2C202FAE6C0027902D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5EE1C5582033E81000C2B621 /* Products */;
+					ProjectRef = 5EE1C5572033E81000C2B621 /* Prelude.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5E2B3F2A202FAE6C0027902D /* Parser */,
@@ -173,6 +226,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5EE1C55E2033E81000C2B621 /* Prelude.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Prelude.framework;
+			remoteRef = 5EE1C55D2033E81000C2B621 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5EE1C5602033E81000C2B621 /* PreludeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PreludeTests.xctest;
+			remoteRef = 5EE1C55F2033E81000C2B621 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5EE1C5622033E81000C2B621 /* libPreludeOSX.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPreludeOSX.a;
+			remoteRef = 5EE1C5612033E81000C2B621 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5E2B3F29202FAE6C0027902D /* Resources */ = {
@@ -196,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E2B3F46202FAEA40027902D /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +411,7 @@
 		5E2B3F40202FAE6C0027902D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -348,6 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kristoferhanes.Parser;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -355,6 +435,7 @@
 		5E2B3F41202FAE6C0027902D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -377,6 +458,7 @@
 		5E2B3F43202FAE6C0027902D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S45PT92T2Q;
@@ -391,6 +473,7 @@
 		5E2B3F44202FAE6C0027902D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S45PT92T2Q;
