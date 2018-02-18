@@ -6,13 +6,14 @@
 //  Copyright © 2018 Kristofer Hanes. All rights reserved.
 //
 
+import Foundation
 import PreludeOSX
 
-struct Parser<Parsed> {
+public struct Parser<Parsed> {
   private let parse: (Stream) throws -> (parsed: Parsed, remaining: Stream)
 }
 
-extension Parser {
+public extension Parser {
   
   func parsing(_ input: String) throws -> (parsed: Parsed, remaining: String) {
     let (parsed, remaining) = try parse(Stream(position: 0, input: Substring(input)))
@@ -38,16 +39,11 @@ extension Parser {
     return Parser<[Parsed]> { stream in
       var stream = stream
       var result: [Parsed] = []
-      do {
-        while true {
-          let (parsed, remaining) = try self.parsing(stream)
-          result.append(parsed)
-          stream = remaining
-        }
+      while let (parsed, remaining) = try? self.parsing(stream) {
+        result.append(parsed)
+        stream = remaining
       }
-      catch {
-        return (result, stream)
-      }
+      return (result, stream)
     }
   }
   
@@ -55,9 +51,21 @@ extension Parser {
     return curried(+) <^> map { [$0] } <*> many
   }
   
+  var optional: Parser<Parsed?> {
+    return Parser<Parsed?> { stream in
+      do {
+        let (parsed, remaining) = try self.parsing(stream)
+        return (.some(parsed), remaining)
+      }
+      catch {
+        return (.none, stream)
+      }
+    }
+  }
+  
 }
 
-extension Parser { // Functor
+public extension Parser { // Functor
   
   func map<Mapped>(_ transform: @escaping (Parsed) -> Mapped) -> Parser<Mapped> {
     return Parser<Mapped> { [parse] stream in
@@ -73,7 +81,7 @@ extension Parser { // Functor
   
 }
 
-extension Parser { // Applicative
+public extension Parser { // Applicative
   
   static func pure(_ value: Parsed) -> Parser {
     return Parser { stream in (value, stream) }
@@ -87,9 +95,17 @@ extension Parser { // Applicative
     }
   }
   
+  static func <* <Ignored>(parser: Parser, ignored: Parser<Ignored>) -> Parser {
+    return fst <^> parser <*> ignored
+  }
+  
+  static func *> <Ignored>(ignored: Parser<Ignored>, parser: Parser) -> Parser {
+    return snd <^> ignored <*> parser
+  }
+  
 }
 
-extension Parser { // Monad
+public extension Parser { // Monad
   
   func flatMap<Mapped>(_ transform: @escaping (Parsed) -> Parser<Mapped>) -> Parser<Mapped> {
     return Parser<Mapped> { stream in
@@ -101,7 +117,7 @@ extension Parser { // Monad
   
 }
 
-extension Parser where Parsed == Character {
+public extension Parser where Parsed == Character {
   
   static var character: Parser {
     return Parser { stream in
@@ -113,7 +129,7 @@ extension Parser where Parsed == Character {
     }
   }
   
-  static func satifying(predicate: @escaping (Character) -> Bool) -> Parser {
+  static func satisfying(predicate: @escaping (Character) -> Bool) -> Parser {
     return Parser { stream in
       let (character, remaining) = try Parser.character.parsing(stream)
       guard predicate(character) else {
@@ -123,32 +139,79 @@ extension Parser where Parsed == Character {
     }
   }
   
-  static let lowercase = satifying { "a" <= $0 && $0 <= "z" }
-  static let uppercase = satifying { "A" <= $0 && $0 <= "Z" }
+  static let lowercase = satisfying { "a" <= $0 && $0 <= "z" }
+  static let uppercase = satisfying { "A" <= $0 && $0 <= "Z" }
   static let letter = lowercase ?? uppercase
-  static let digit = satifying { "0" <= $0 && $0 <= "9" }
+  static let digit = satisfying { "0" <= $0 && $0 <= "9" }
   static let alphaNumeric = letter ?? digit
 }
 
-enum ParserError: Error {
+public extension Parser where Parsed == String {
+  
+  static var string: Parser {
+    return Parser { stream in
+      let result = String(stream.input)
+      let newStream = Stream(position: stream.position + result.count, input: "")
+      return (result, newStream)
+    }
+  }
+  
+  static func satisfying(predicate: @escaping (String) -> Bool) -> Parser {
+    return Parser { stream in
+      let (parsed, remaining) = try string.parsing(stream)
+      if predicate(parsed) {
+        return (parsed, remaining)
+      }
+      else {
+        throw Error.failedPredicate(position: stream.position)
+      }
+    }
+  }
+  
+  static func string(upto ending: String) -> Parser {
+    return Parser { stream in
+      guard let range = stream.input.range(of: ending) else {
+        throw Error.endOfString
+      }
+      let result = String(stream.input.prefix(upTo: range.lowerBound))
+      let remaining = stream.input.dropFirst(result.count)
+      let position = stream.position + result.count
+      return (result, Stream(position: position, input: remaining))
+    }
+  }
+  
+  static func bracket(open: String, close: String) -> Parser {
+    let opener = Parser<String>.satisfying { $0 == open }
+    let closer = Parser<String>.satisfying { $0 == close }
+    return bracket(open: opener, close: closer)
+  }
+  
+  static func bracket(open: Parser, close: Parser) -> Parser {
+    let middle = close.flatMap { Parser.string(upto: $0) }
+    return open *> middle <* close
+  }
+  
+}
+
+public enum ParserError: Error {
   case endOfString
   case failedPredicate(position: Int)
 }
 
-extension Parser {
+public extension Parser {
   typealias Error = ParserError
 }
 
-struct ParserStream {
+public struct ParserStream {
   var position: Int
   var input: Substring
 }
 
-extension Parser {
+public extension Parser {
   typealias Stream = ParserStream
 }
 
-extension String {
+public extension String {
   
   func parsed<Parsed>(with parser: Parser<Parsed>) throws -> Parsed {
     return try parser.parsing(self).parsed
