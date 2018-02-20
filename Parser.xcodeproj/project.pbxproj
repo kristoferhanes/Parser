@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5E2B3F35202FAE6C0027902D /* Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E2B3F2B202FAE6C0027902D /* Parser.framework */; };
 		5E2B3F3A202FAE6C0027902D /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2B3F39202FAE6C0027902D /* ParserTests.swift */; };
-		5E2B3F3C202FAE6C0027902D /* Parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2B3F2E202FAE6C0027902D /* Parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E2B3F46202FAEA40027902D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2B3F45202FAEA40027902D /* Parser.swift */; };
 		5EE1C5632033E88300C2B621 /* libPreludeOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EE1C5622033E81000C2B621 /* libPreludeOSX.a */; };
 /* End PBXBuildFile section */
@@ -47,7 +46,6 @@
 
 /* Begin PBXFileReference section */
 		5E2B3F2B202FAE6C0027902D /* Parser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E2B3F2E202FAE6C0027902D /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		5E2B3F2F202FAE6C0027902D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E2B3F34202FAE6C0027902D /* ParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E2B3F39202FAE6C0027902D /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 		5E2B3F2D202FAE6C0027902D /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				5E2B3F2E202FAE6C0027902D /* Parser.h */,
 				5E2B3F2F202FAE6C0027902D /* Info.plist */,
 				5E2B3F45202FAEA40027902D /* Parser.swift */,
 			);
@@ -139,7 +136,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E2B3F3C202FAE6C0027902D /* Parser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
