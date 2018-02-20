@@ -133,10 +133,14 @@ public extension Parser where Parsed == Character {
     return Parser { stream in
       let (character, remaining) = try Parser.character.parsing(stream)
       guard predicate(character) else {
-        throw Error.failedPredicate(position: stream.position)
+        throw Error.unexpected(input: String(character), at: stream.position)
       }
       return (character, remaining)
     }
+  }
+  
+  static func matching(_ match: Character) -> Parser {
+    return satisfying { $0 == match }
   }
   
   static let lowercase = satisfying { "a" <= $0 && $0 <= "z" }
@@ -163,15 +167,29 @@ public extension Parser where Parsed == String {
         return (parsed, remaining)
       }
       else {
-        throw Error.failedPredicate(position: stream.position)
+        throw Error.unexpected(input: parsed, at: stream.position)
       }
     }
   }
   
-  static func string(upto ending: String) -> Parser {
+  static func matching(_ match: String) -> Parser {
+    return Parser { stream in
+      guard stream.input.hasPrefix(match) else {
+        throw Error.expected(input: match, found: String(stream.input), at: stream.position)
+      }
+      let newStream = Stream(
+        position: stream.position + match.count,
+        input: stream.input.dropFirst(match.count)
+      )
+      return (match, newStream)
+    }
+
+  }
+  
+  static func string(before ending: String) -> Parser {
     return Parser { stream in
       guard let range = stream.input.range(of: ending) else {
-        throw Error.endOfString
+        throw Error.expected(input: ending, found: String(stream.input), at: stream.position)
       }
       let result = String(stream.input.prefix(upTo: range.lowerBound))
       let remaining = stream.input.dropFirst(result.count)
@@ -180,22 +198,26 @@ public extension Parser where Parsed == String {
     }
   }
   
-  static func bracket(open: String, close: String) -> Parser {
-    let opener = Parser<String>.satisfying { $0 == open }
-    let closer = Parser<String>.satisfying { $0 == close }
-    return bracket(open: opener, close: closer)
+}
+
+public extension Parser {
+  
+  func bracketed(open: String, close: String) -> Parser {
+    let opener = Parser<String>.matching(open)
+    let closer = Parser<String>.matching(close)
+    return bracketed(open: opener, close: closer)
   }
   
-  static func bracket(open: Parser, close: Parser) -> Parser {
-    let middle = close.flatMap { Parser.string(upto: $0) }
-    return open *> middle <* close
+  func bracketed(open: Parser<String>, close: Parser<String>) -> Parser {
+    return open *> self <* close
   }
   
 }
 
 public enum ParserError: Error {
   case endOfString
-  case failedPredicate(position: Int)
+  case expected(input: String, found: String, at: Int)
+  case unexpected(input: String, at: Int)
 }
 
 public extension Parser {
